@@ -1,6 +1,7 @@
 ﻿using GoblinFramework.Physics.Collision;
 using GoblinFramework.Physics.Shape;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Numerics;
 using TrueSync;
 
@@ -10,7 +11,7 @@ static void TestPointPoint()
     //var p0 = new TSVector2(1, 2);
     var p1 = new TSVector2(1, 1);
 
-    Console.WriteLine($"TestPointPoint -> {GCollisionTesting.Test(p0, p1)}");
+    //Console.WriteLine($"TestPointPoint -> {GCollisionTesting.Test(p0, p1)}");
 }
 
 static void TestPointLine()
@@ -19,7 +20,7 @@ static void TestPointLine()
     //var p0 = new TSVector2(1, 10);
     var l0 = new GLine(new TSVector2(-10, 1), new TSVector2(10, 1));
 
-    Console.WriteLine($"TestPointLine -> {GCollisionTesting.Test(p0, l0)}");
+    //Console.WriteLine($"TestPointLine -> {GCollisionTesting.Test(p0, l0)}");
 }
 
 static void TestPointCircle()
@@ -28,7 +29,7 @@ static void TestPointCircle()
     //var p0 = new TSVector2(9, 1);
     var c0 = new GCircle(TSVector2.zero, 2);
 
-    Console.WriteLine($"TestPointCircle -> {GCollisionTesting.Test(p0, c0)}");
+    //Console.WriteLine($"TestPointCircle -> {GCollisionTesting.Test(p0, c0)}");
 }
 
 static void TestPointPolygon()
@@ -42,7 +43,7 @@ static void TestPointPolygon()
         new TSVector2(0, 0),
     });
 
-    Console.WriteLine($"TestPointPolygon -> {GCollisionTesting.Test(p0, p1)}");
+    //Console.WriteLine($"TestPointPolygon -> {GCollisionTesting.Test(p0, p1)}");
 }
 
 static void TestLineLine() 
@@ -51,7 +52,7 @@ static void TestLineLine()
     //var l0 = new GLine(new TSVector2(-2, 0), new TSVector2(2, 0));
     var l1 = new GLine(new TSVector2(0, 1), new TSVector2(0, -1));
 
-    Console.WriteLine($"TestLineLine -> {GCollisionTesting.Test(l0, l1)}");
+    //Console.WriteLine($"TestLineLine -> {GCollisionTesting.Test(l0, l1)}");
 }
 
 static void TestLineCircle()
@@ -60,7 +61,7 @@ static void TestLineCircle()
     //var l0 = new GLine(new TSVector2(10, 10), new TSVector2(20, 20));
     var c0 = new GCircle(TSVector2.zero, 2);
 
-    Console.WriteLine($"TestLineCircle -> {GCollisionTesting.Test(l0, c0)}");
+    //Console.WriteLine($"TestLineCircle -> {GCollisionTesting.Test(l0, c0)}");
 }
 
 static void TestLinePolygon()
@@ -75,7 +76,7 @@ static void TestLinePolygon()
         new TSVector2(0, 0),
     });
 
-    Console.WriteLine($"TestLinePolygon -> {GCollisionTesting.Test(l0, p0)}");
+    //Console.WriteLine($"TestLinePolygon -> {GCollisionTesting.Test(l0, p0)}");
 }
 
 static void TestCircleCircle()
@@ -85,7 +86,7 @@ static void TestCircleCircle()
     //var c0 = new GCircle(TSVector2.one * 4, 2);
     var c1 = new GCircle(TSVector2.zero, 2);
 
-    Console.WriteLine($"TestCircleCircle -> {GCollisionTesting.Test(c0, c1)}");
+    //Console.WriteLine($"TestCircleCircle -> {GCollisionTesting.Test(c0, c1)}");
 }
 
 static void TestCirclePolygon()
@@ -101,7 +102,7 @@ static void TestCirclePolygon()
         new TSVector2(0, 0),
     });
 
-    Console.WriteLine($"TestCirclePolygon -> {GCollisionTesting.Test(c0, p0)}");
+    //Console.WriteLine($"TestCirclePolygon -> {GCollisionTesting.Test(c0, p0)}");
 }
 
 static void TestPolygonPolygon()
@@ -141,18 +142,30 @@ static void TestPolygonPolygon()
         new TSVector2(0, 0),
     });
 
-    Console.WriteLine($"TestPolygonPolygon -> {GCollisionTesting.Test(p0, p1)}");
+    //Console.WriteLine($"TestPolygonPolygon -> {GCollisionTesting.Test(p0, p1)}");
 }
 
-TestPointPoint();
-TestPointLine();
-TestPointCircle();
-TestPointPolygon();
-TestLineLine();
-TestLineCircle();
-TestLinePolygon();
-TestCircleCircle();
-TestCirclePolygon();
-TestPolygonPolygon();
+static long StopwatchInvoke(int count, Action action) 
+{
+    var stopwatch = Stopwatch.StartNew();
+    stopwatch.Start();
+    for (int i = 0; i < count; i++) action.Invoke();
+    stopwatch.Stop();
+    Console.WriteLine($"{stopwatch.ElapsedMilliseconds} \t {action.Method.Name}");
+
+    return stopwatch.ElapsedMilliseconds;
+}
+
+int count = 100000;
+StopwatchInvoke(count, TestPointPoint);
+StopwatchInvoke(count, TestPointLine);
+StopwatchInvoke(count, TestPointCircle);
+StopwatchInvoke(count, TestPointPolygon);
+StopwatchInvoke(count, TestLineLine);
+StopwatchInvoke(count, TestLineCircle);
+StopwatchInvoke(count, TestLinePolygon);
+StopwatchInvoke(count, TestCircleCircle);
+StopwatchInvoke(count, TestCirclePolygon);
+StopwatchInvoke(count, TestPolygonPolygon);
 
 Console.ReadKey();
