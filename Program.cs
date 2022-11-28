@@ -151,21 +151,39 @@ static long StopwatchInvoke(int count, Action action)
     stopwatch.Start();
     for (int i = 0; i < count; i++) action.Invoke();
     stopwatch.Stop();
-    Console.WriteLine($"{stopwatch.ElapsedMilliseconds} \t {action.Method.Name}");
+    Console.WriteLine($"ms {stopwatch.ElapsedMilliseconds} \t {action.Method.Name}");
 
     return stopwatch.ElapsedMilliseconds;
 }
 
-int count = 100000;
-StopwatchInvoke(count, TestPointPoint);
-StopwatchInvoke(count, TestPointLine);
-StopwatchInvoke(count, TestPointCircle);
-StopwatchInvoke(count, TestPointPolygon);
-StopwatchInvoke(count, TestLineLine);
-StopwatchInvoke(count, TestLineCircle);
-StopwatchInvoke(count, TestLinePolygon);
-StopwatchInvoke(count, TestCircleCircle);
-StopwatchInvoke(count, TestCirclePolygon);
-StopwatchInvoke(count, TestPolygonPolygon);
+static void StressTesting() 
+{
+    /// <summary>
+    /// 一百万次碰撞检测
+    /// </summary>
+    int count = 1000000;
+    StopwatchInvoke(count, TestPointPoint);
+    StopwatchInvoke(count, TestPointLine);
+    StopwatchInvoke(count, TestPointCircle);
+    StopwatchInvoke(count, TestPointPolygon);
+    StopwatchInvoke(count, TestLineLine);
+    StopwatchInvoke(count, TestLineCircle);
+    StopwatchInvoke(count, TestLinePolygon);
+    StopwatchInvoke(count, TestCircleCircle);
+    StopwatchInvoke(count, TestCirclePolygon);
+    StopwatchInvoke(count, TestPolygonPolygon);
 
+    //ms 14     << Main >$> g__TestPointPoint | 0_0
+    //ms 36     << Main >$> g__TestPointLine | 0_1
+    //ms 20     << Main >$> g__TestPointCircle | 0_2
+    //ms 76     << Main >$> g__TestPointPolygon | 0_3
+    //ms 48     << Main >$> g__TestLineLine | 0_4
+    //ms 33     << Main >$> g__TestLineCircle | 0_5
+    //ms 80     << Main >$> g__TestLinePolygon | 0_6
+    //ms 23     << Main >$> g__TestCircleCircle | 0_7
+    //ms 73     << Main >$> g__TestCirclePolygon | 0_8
+    //ms 108    << Main >$> g__TestPolygonPolygon | 0_9
+}
+
+StressTesting();
 Console.ReadKey();

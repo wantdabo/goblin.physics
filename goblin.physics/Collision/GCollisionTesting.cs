@@ -48,7 +48,7 @@ namespace GoblinFramework.Physics.Collision
         /// <returns>是否碰撞</returns>
         public static bool Test(TSVector2 p0, GCircle c0)
         {
-            return TSVector2.Distance(p0, c0.position) <= c0.radius;
+            return TSVector2.Distance(p0, c0.center) <= c0.radius;
         }
 
         /// <summary>
@@ -104,10 +104,7 @@ namespace GoblinFramework.Physics.Collision
         /// <returns>是否相撞</returns>
         public static bool Test(GLine l0, GCircle c0)
         {
-            // 快速检测，两点是否在圆内
-            if (Test(l0.p0, c0) || Test(l0.p1, c0)) return true;
-
-            // 快速检测，两点是否在圆内
+            // 快速检测，端点是否在圆内
             if (Test(l0.p0, c0) || Test(l0.p1, c0)) return true;
 
             // from https://github.com/XXHolic/blog/issues/61#situation3
@@ -117,7 +114,7 @@ namespace GoblinFramework.Physics.Collision
             // radius   圆的半径
             FP x1 = l0.p0.x; FP y1 = l0.p0.y;
             FP x2 = l0.p1.x; FP y2 = l0.p1.y;
-            FP cx = c0.position.x; FP cy = c0.position.y;
+            FP cx = c0.center.x; FP cy = c0.center.y;
             FP radius = c0.radius;
 
             FP pointVectorX = x1 - x2;
@@ -160,7 +157,7 @@ namespace GoblinFramework.Physics.Collision
         /// <returns>是否碰撞</returns>
         public static bool Test(GCircle c0, GCircle c1)
         {
-            return TSVector2.Distance(c0.position, c1.position) <= c0.radius + c1.radius;
+            return TSVector2.Distance(c0.center, c1.center) <= c0.radius + c1.radius;
         }
 
         /// <summary>

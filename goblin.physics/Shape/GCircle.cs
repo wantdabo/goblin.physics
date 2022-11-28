@@ -7,15 +7,49 @@ using TrueSync;
 
 namespace GoblinFramework.Physics.Shape
 {
-    public struct GCircle
+    /// <summary>
+    /// 圆形
+    /// </summary>
+    public struct GCircle : IGShape
     {
-        public TSVector2 position;
-        public FP radius;
+        /// <summary>
+        /// 圆心
+        /// </summary>
+        public TSVector2 center { get; private set; }
 
-        public GCircle(TSVector2 position, FP radius)
+        /// <summary>
+        /// 半径
+        /// </summary>
+        public FP radius { get; private set; }
+
+        /// <summary>
+        /// 请使用有参的构造函数构造, GCircle(TSVector2 center, FP radius)
+        /// </summary>
+        /// <exception cref="Exception">请使用有参的构造函数构造, GCircle(TSVector2 center, FP radius)</exception>
+        public GCircle()
         {
-            this.position = position;
+            throw new Exception("请使用有参的构造函数构造, GCircle(TSVector2 center, FP radius)");
+        }
+
+        /// <summary>
+        /// 圆形构造
+        /// </summary>
+        /// <param name="center">圆心</param>
+        /// <param name="radius">半径</param>
+        public GCircle(TSVector2 center, FP radius)
+        {
+            this.center = center;
             this.radius = radius;
+        }
+
+        public GCircle CalcCircle(TSVector2 position, FP degress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GPolygon CalcRect(TSVector2 position, FP degress)
+        {
+            throw new NotImplementedException();
         }
     }
 }

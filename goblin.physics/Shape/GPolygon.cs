@@ -7,35 +7,48 @@ using TrueSync;
 
 namespace GoblinFramework.Physics.Shape
 {
-    public struct GPolygon
+    /// <summary>
+    /// 多边形
+    /// </summary>
+    public struct GPolygon : IGShape
     {
-        public List<TSVector2> vertexes;
+        /// <summary>
+        /// 多边形的顶点，不得小于三个
+        /// </summary>
+        private List<TSVector2> vertexes;
 
+        /// <summary>
+        /// 请使用有参的构造函数构造, GPolygon(List<TSVector2> vertexes)
+        /// </summary>
+        /// <exception cref="Exception">请使用有参的构造函数构造, GPolygon(List<TSVector2> vertexes)</exception>
+        public GPolygon() 
+        {
+            throw new Exception("请使用有参的构造函数构造, GPolygon(List<TSVector2> vertexes)");
+        }
+
+        /// <summary>
+        /// 多边形构造
+        /// </summary>
+        /// <param name="vertexes">顶点列表，数量不得小于三</param>
         public GPolygon(List<TSVector2> vertexes) 
         {
+            if (vertexes.Count < 3) throw new Exception("顶点列表，数量不得小于三");
             this.vertexes = vertexes;
         }
 
+        /// <summary>
+        /// 获得线段列表
+        /// </summary>
+        /// <returns>线段列表</returns>
         public GLine[] GetLines()
         {
-            if (null == vertexes) throw new Exception("donot has vertexes.");
-
             var vertexCount = vertexes.Count;
             GLine[] lines = new GLine[vertexCount];
-            for (int i = 0; i < vertexCount - 1; i++)
-            {
-                // 为了内存命中率，n - 1 的连续遍历采用高速计算线段，末端计算
-                var v0 = vertexes[i];
-                var v1 = vertexes[i + 1];
-                lines[i].p0 = v0;
-                lines[i].p1 = v1;
-            }
+            // 为了内存命中率，n - 1 的连续遍历采用高速计算线段，末端计算
+            for (int i = 0; i < vertexCount - 1; i++) lines[i] = new GLine(vertexes[i], vertexes[i + 1]);
 
             // 最后一个顶点与第一个顶点的计算线段，末端分段计算
-            var eV0 = vertexes[vertexCount - 1];
-            var eV1 = vertexes[0];
-            lines[vertexCount - 1].p0 = eV0;
-            lines[vertexCount - 1].p1 = eV1;
+            lines[vertexCount - 1] = new GLine(vertexes[vertexCount - 1], vertexes[0]);
 
             return lines;
         }
@@ -67,6 +80,16 @@ namespace GoblinFramework.Physics.Shape
             }
 
             return planes;
+        }
+
+        public GCircle CalcCircle(TSVector2 position, FP degress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GPolygon CalcRect(TSVector2 position, FP degress)
+        {
+            throw new NotImplementedException();
         }
     }
 }
