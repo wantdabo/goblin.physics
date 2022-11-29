@@ -68,15 +68,5 @@ namespace GoblinFramework.Physics.Shape
 
             return new TSVector(normal.x, normal.y, TSVector2.Dot(normal, p0));
         }
-
-        public GCircle CalcCircle(TSVector2 position, FP degress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public GPolygon CalcRect(TSVector2 position, FP degress)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

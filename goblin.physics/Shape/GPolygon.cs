@@ -15,13 +15,13 @@ namespace GoblinFramework.Physics.Shape
         /// <summary>
         /// 多边形的顶点，不得小于三个
         /// </summary>
-        private List<TSVector2> vertexes;
+        public List<TSVector2> vertexes { get; private set; }
 
         /// <summary>
         /// 请使用有参的构造函数构造, GPolygon(List<TSVector2> vertexes)
         /// </summary>
         /// <exception cref="Exception">请使用有参的构造函数构造, GPolygon(List<TSVector2> vertexes)</exception>
-        public GPolygon() 
+        public GPolygon()
         {
             throw new Exception("请使用有参的构造函数构造, GPolygon(List<TSVector2> vertexes)");
         }
@@ -30,7 +30,7 @@ namespace GoblinFramework.Physics.Shape
         /// 多边形构造
         /// </summary>
         /// <param name="vertexes">顶点列表，数量不得小于三</param>
-        public GPolygon(List<TSVector2> vertexes) 
+        public GPolygon(List<TSVector2> vertexes)
         {
             if (vertexes.Count < 3) throw new Exception("顶点列表，数量不得小于三");
             this.vertexes = vertexes;
@@ -71,25 +71,16 @@ namespace GoblinFramework.Physics.Shape
         /// 获取平面列表
         /// </summary>
         /// <returns></returns>
-        public TSVector[] GetPlanes() 
+        public TSVector[] GetPlanes()
         {
             var lines = GetLines();
             TSVector[] planes = new TSVector[lines.Length];
-            for (int i = 0; i < lines.Length; i++) { 
+            for (int i = 0; i < lines.Length; i++)
+            {
                 planes[i] = lines[i].GetPlane();
             }
 
             return planes;
-        }
-
-        public GCircle CalcCircle(TSVector2 position, FP degress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public GPolygon CalcRect(TSVector2 position, FP degress)
-        {
-            throw new NotImplementedException();
         }
     }
 }

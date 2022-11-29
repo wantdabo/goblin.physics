@@ -41,15 +41,5 @@ namespace GoblinFramework.Physics.Shape
             this.center = center;
             this.radius = radius;
         }
-
-        public GCircle CalcCircle(TSVector2 position, FP degress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public GPolygon CalcRect(TSVector2 position, FP degress)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
