@@ -13,81 +13,102 @@ namespace GoblinFramework.Physics.Entity
     /// </summary>
     public class GEntity
     {
-        #region Properties
-
         /// <summary>
         /// 实体 ID
         /// </summary>
         public uint entityId;
 
-        private TSVector2 mPosition;
-        /// <summary>
-        /// 坐标
-        /// </summary>
-        public TSVector2 position { get { return mPosition; } set { mPosition = value; } }
-
-        private FP mDegress;
-        /// <summary>
-        /// 角度（非弧度）
-        /// </summary>
-        public FP degress { get { return mDegress; } set { mDegress = value; } }
-
         private List<IGShape>? mShapes = null;
         /// <summary>
         /// 形状列表
         /// </summary>
-        public List<IGShape>? shapes { get { return mShapes; } private set { mShapes = value; } }
+        public List<IGShape>? shapes
+        {
+            get { return mShapes; }
+            set
+            {
+                mShapes = value;
+                SetDirty();
+            }
+        }
 
-        #endregion
+        private TSVector2 mPosition;
+        /// <summary>
+        /// 坐标
+        /// </summary>
+        public TSVector2 position
+        {
+            get { return mPosition; }
+            set
+            {
+                mPosition = value;
+                SetDirty();
+            }
+        }
+
+        private FP mDeg;
+        /// <summary>
+        /// 角度（非弧度）
+        /// </summary>
+        public FP deg
+        {
+            get { return mDeg; }
+            set
+            {
+                mDeg = value;
+                SetDirty();
+            }
+        }
+
+        private FP mScale;
+        /// <summary>
+        /// 缩放
+        /// </summary>
+        public FP scale
+        {
+            get { return mScale; }
+            set
+            {
+                mScale = value;
+                SetDirty();
+            }
+        }
 
         private GWorld? mWorld = null;
         public GWorld? world { get { return mWorld; } set { mWorld = value; } }
 
-        #region 构造实体
         /// <summary>
         /// 构建实体
         /// </summary>
         /// <param name="position">坐标</param>
+        /// <param name="deg">角度</param>
         /// <param name="shapes">形状列表</param>
-        public GEntity(TSVector2 position, List<IGShape> shapes)
+        public GEntity(List<IGShape> shapes, TSVector2 position, FP deg, FP scale)
         {
-            SetEntity(position, shapes);
-        }
-
-        /// <summary>
-        /// 构建实体
-        /// </summary>
-        /// <param name="position">坐标</param>
-        /// <param name="degress">角度</param>
-        /// <param name="shapes">形状列表</param>
-        public GEntity(TSVector2 position, FP degress, List<IGShape> shapes)
-        {
-            SetEntity(position, degress, shapes);
+            SetEntity(shapes, position, deg, scale);
         }
 
         /// <summary>
         /// 设置实体
         /// </summary>
         /// <param name="position">坐标</param>
+        /// <param name="deg">角度</param>
         /// <param name="shapes">形状列表</param>
-        /// <param name="entityType">实体类型</param>
-        public void SetEntity(TSVector2 position, List<IGShape> shapes)
+        public void SetEntity(List<IGShape> shapes, TSVector2 position, FP deg, FP scale)
         {
-            SetEntity(position, FP.Zero, shapes);
+            this.position = position;
+            this.deg = deg;
+            this.scale = scale;
+            this.shapes = shapes;
+            SetDirty();
         }
 
         /// <summary>
-        /// 设置实体
+        /// 设置为脏，重新计算碰撞树
         /// </summary>
-        /// <param name="position">坐标</param>
-        /// <param name="degress">角度</param>
-        /// <param name="shapes">形状列表</param>
-        public void SetEntity(TSVector2 position, FP degress, List<IGShape> shapes)
+        public void SetDirty() 
         {
-            this.mPosition = position;
-            this.mDegress = degress;
-            this.mShapes = shapes;
+            world?.SetDirty(this);
         }
-        #endregion
     }
 }

@@ -11,6 +11,39 @@ namespace GoblinFramework.Physics
     public class GHelper
     {
         /// <summary>
+        /// 将线平移
+        /// </summary>
+        /// <param name="line">线</param>
+        /// <param name="offset">平移值</param>
+        /// <returns>平移后的线</returns>
+        public static GLine Translate(GLine line, TSVector2 offset)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 将圆平移
+        /// </summary>
+        /// <param name="circle">圆</param>
+        /// <param name="offset">平移值</param>
+        /// <returns>平移后的线</returns>
+        public static GCircle Translate(GCircle circle, TSVector2 offset)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 将多边形平移
+        /// </summary>
+        /// <param name="plygon">多边形</param>
+        /// <param name="offset">平移值</param>
+        /// <returns>平移后的线</returns>
+        public static GPolygon Translate(GPolygon polygon, TSVector2 offset)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// 将线旋转
         /// </summary>
         /// <param name="line">线</param>
@@ -37,6 +70,30 @@ namespace GoblinFramework.Physics
 
             return new GPolygon(vertexes);
         }
+
+        /// <summary>
+        /// 将线缩放
+        /// </summary>
+        /// <param name="line">线</param>
+        /// <param name="scale">缩放值</param>
+        /// <returns>缩放后的线</returns>
+        public static GLine Scale(GLine line, FP scale) { throw new NotImplementedException(); }
+
+        /// <summary>
+        /// 将圆缩放
+        /// </summary>
+        /// <param name="circle">圆</param>
+        /// <param name="scale">缩放值</param>
+        /// <returns>缩放后的圆</returns>
+        public static GCircle Scale(GCircle circle, FP scale) { throw new NotImplementedException(); }
+
+        /// <summary>
+        /// 将多边形缩放
+        /// </summary>
+        /// <param name="polygon">多边形</param>
+        /// <param name="scale">缩放值</param>
+        /// <returns>缩放后的多边形</returns>
+        public static GCircle Scale(GPolygon polygon, FP scale) { throw new NotImplementedException(); }
 
         /// <summary>
         /// 计算线的圆形包围盒
@@ -139,7 +196,7 @@ namespace GoblinFramework.Physics
         /// <param name="polygon">多边形</param>
         /// <param name="deg">角度</param>
         /// <returns>AABB 包围盒</returns>
-        public static GPolygon CalcAABB(TSVector2 position, GPolygon polygon, FP deg) 
+        public static GPolygon CalcAABB(TSVector2 position, GPolygon polygon, FP deg)
         {
             var minX = FP.MaxValue;
             var minY = FP.MaxValue;

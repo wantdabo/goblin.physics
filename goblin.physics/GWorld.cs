@@ -11,10 +11,11 @@ namespace GoblinFramework.Physics
 {
     public class GWorld
     {
-        public uint incrementEntityId;
+        public uint incrementId { get; private set; }
 
         private List<GEntity> entities = new List<GEntity>();
         private Dictionary<uint, GEntity> entityDict = new Dictionary<uint, GEntity>();
+        private List<GEntity> dirtyEntities = new List<GEntity>();
 
         public GEntity? GetEntity(uint entityId)
         {
@@ -25,7 +26,7 @@ namespace GoblinFramework.Physics
 
         public void AddEntity(GEntity entity)
         {
-            entity.entityId = ++incrementEntityId;
+            entity.entityId = ++incrementId;
             entities.Add(entity);
             entityDict.Add(entity.entityId, entity);
         }
@@ -39,6 +40,12 @@ namespace GoblinFramework.Physics
         {
             entities.Remove(entity);
             entityDict.Remove(entity.entityId);
+        }
+
+        public void SetDirty(GEntity entity)
+        {
+            if (dirtyEntities.Contains(entity)) return;
+            dirtyEntities.Add(entity);
         }
     }
 }

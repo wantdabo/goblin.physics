@@ -1,4 +1,5 @@
-﻿using GoblinFramework.Physics.Shape;
+﻿using GoblinFramework.Physics.Entity;
+using GoblinFramework.Physics.Shape;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -190,5 +191,45 @@ namespace GoblinFramework.Physics.Collision
 
             return false;
         }
+
+        /// <summary>
+        /// 测试实体与实体的碰撞检测
+        /// </summary>
+        /// <param name="e0">实体 1</param>
+        /// <param name="e1">实体 2</param>
+        /// <returns>是否相撞</returns>
+        public static bool Test(GEntity e0, GEntity e1) { throw new NotImplementedException(); }
+
+        /// <summary>
+        /// 测试实体与点的碰撞检测
+        /// </summary>
+        /// <param name="e0">实体 1</param>
+        /// <param name="p0">点 1</param>
+        /// <returns>是否相撞</returns>
+        public static bool Test(GEntity e0, TSVector2 p0) { throw new NotImplementedException(); }
+
+        /// <summary>
+        /// 测试实体与线的碰撞检测
+        /// </summary>
+        /// <param name="e0">实体 1</param>
+        /// <param name="l0">线 1</param>
+        /// <returns>是否相撞</returns>
+        public static bool Test(GEntity e0, GLine l0) { throw new NotImplementedException(); }
+
+        /// <summary>
+        /// 测试实体与圆的碰撞检测
+        /// </summary>
+        /// <param name="e0">实体 1</param>
+        /// <param name="c0">圆 1</param>
+        /// <returns>是否相撞</returns>
+        public static bool Test(GEntity e0, GCircle c0) { throw new NotImplementedException(); }
+
+        /// <summary>
+        /// 测试实体与多边形的碰撞检测
+        /// </summary>
+        /// <param name="e0">实体 1</param>
+        /// <param name="p0">多边形 1</param>
+        /// <returns>是否相撞</returns>
+        public static bool Test(GEntity e0, GPolygon p0) { throw new NotImplementedException(); }
     }
 }

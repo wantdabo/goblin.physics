@@ -41,5 +41,15 @@ namespace GoblinFramework.Physics.Shape
             this.center = center;
             this.radius = radius;
         }
+
+        public GCircle CalcCircle(TSVector2 position, FP deg)
+        {
+            return GHelper.CalcCircle(position, this, deg);
+        }
+
+        public GPolygon CalcAABB(TSVector2 position, FP deg)
+        {
+            return GHelper.CalcAABB(position, this, deg);
+        }
     }
 }

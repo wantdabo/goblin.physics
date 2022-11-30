@@ -161,7 +161,7 @@ static void StressTesting()
     /// <summary>
     /// 一百万次碰撞检测
     /// </summary>
-    int count = 1000000;
+    int count = 100 * 10000;
     StopwatchInvoke(count, TestPointPoint);
     StopwatchInvoke(count, TestPointLine);
     StopwatchInvoke(count, TestPointCircle);

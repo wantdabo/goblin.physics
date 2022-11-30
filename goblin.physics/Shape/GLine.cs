@@ -68,5 +68,15 @@ namespace GoblinFramework.Physics.Shape
 
             return new TSVector(normal.x, normal.y, TSVector2.Dot(normal, p0));
         }
+
+        public GCircle CalcCircle(TSVector2 position, FP deg)
+        {
+            return GHelper.CalcCircle(position, this, deg);
+        }
+
+        public GPolygon CalcAABB(TSVector2 position, FP deg)
+        {
+            return GHelper.CalcAABB(position, this, deg);
+        }
     }
 }
