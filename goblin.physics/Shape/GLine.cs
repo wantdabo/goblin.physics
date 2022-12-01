@@ -15,12 +15,12 @@ namespace GoblinFramework.Physics.Shape
         /// <summary>
         /// 起点
         /// </summary>
-        public TSVector2 p0 { get; private set; }
+        public TSVector2 begin { get; private set; }
 
         /// <summary>
         /// 终点
         /// </summary>
-        public TSVector2 p1 { get; private set; }
+        public TSVector2 end { get; private set; }
 
         /// <summary>
         /// 请使用有参的构造函数构造, GLine(TSVector2 p0, TSVector2 p1)
@@ -38,8 +38,8 @@ namespace GoblinFramework.Physics.Shape
         /// <param name="p1">终点</param>
         public GLine(TSVector2 p0, TSVector2 p1)
         {
-            this.p0 = p0;
-            this.p1 = p1;
+            this.begin = p0;
+            this.end = p1;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace GoblinFramework.Physics.Shape
         /// <returns>法线</returns>
         public TSVector2 GetNormal(bool normalize = false)
         {
-            var dire = p1 - p0;
+            var dire = end - begin;
             var normal = new TSVector2(-dire.y, dire.x);
 
             // 需要归一化
@@ -66,17 +66,20 @@ namespace GoblinFramework.Physics.Shape
         {
             var normal = GetNormal(true);
 
-            return new TSVector(normal.x, normal.y, TSVector2.Dot(normal, p0));
+            return new TSVector(normal.x, normal.y, TSVector2.Dot(normal, begin));
         }
 
-        public GCircle CalcCircle(TSVector2 position, FP deg)
+        public GShapeType type { get { return GShapeType.GLine; } }
+
+
+        public GCircle CalcCircle(TSVector2 position, FP deg, FP scale)
         {
-            return GHelper.CalcCircle(position, this, deg);
+            return GHelper.CalcCircle(position, deg, scale, this);
         }
 
-        public GPolygon CalcAABB(TSVector2 position, FP deg)
+        public GPolygon CalcAABB(TSVector2 position, FP deg, FP scale)
         {
-            return GHelper.CalcAABB(position, this, deg);
+            return GHelper.CalcAABB(position, deg, scale, this);
         }
     }
 }

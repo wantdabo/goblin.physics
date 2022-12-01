@@ -42,14 +42,16 @@ namespace GoblinFramework.Physics.Shape
             this.radius = radius;
         }
 
-        public GCircle CalcCircle(TSVector2 position, FP deg)
+        public GShapeType type { get { return GShapeType.GCircle; } }
+
+        public GCircle CalcCircle(TSVector2 position, FP deg, FP scale)
         {
-            return GHelper.CalcCircle(position, this, deg);
+            return GHelper.CalcCircle(position, deg, scale, this);
         }
 
-        public GPolygon CalcAABB(TSVector2 position, FP deg)
+        public GPolygon CalcAABB(TSVector2 position, FP deg, FP scale)
         {
-            return GHelper.CalcAABB(position, this, deg);
+            return GHelper.CalcAABB(position, deg, scale, this);
         }
     }
 }

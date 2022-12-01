@@ -29,11 +29,24 @@ namespace GoblinFramework.Physics.Shape
         /// <summary>
         /// 多边形构造
         /// </summary>
-        /// <param name="vertexes">顶点列表，数量不得小于三</param>
+        /// <param name="vertexes">顶点列表</param>
+        /// <exception cref="Exception">顶点列表，数量不得小于三</exception>
         public GPolygon(List<TSVector2> vertexes)
         {
             if (vertexes.Count < 3) throw new Exception("顶点列表，数量不得小于三");
             this.vertexes = vertexes;
+        }
+
+        /// <summary>
+        /// 多边形构造
+        /// </summary>
+        /// <param name="lines">线列表</param>
+        /// <exception cref="Exception">线列表，数量不得小于三</exception>
+        public GPolygon(GLine[] lines)
+        {
+            if (lines.Length < 3) throw new Exception("线列表，数量不得小于三");
+            vertexes = new List<TSVector2>();
+            for (int i = 0; i < lines.Length; i++) vertexes.Add(lines[i].begin);
         }
 
         /// <summary>
@@ -83,14 +96,16 @@ namespace GoblinFramework.Physics.Shape
             return planes;
         }
 
-        public GCircle CalcCircle(TSVector2 position, FP deg)
+        public GShapeType type { get { return GShapeType.GPolygon; } }
+
+        public GCircle CalcCircle(TSVector2 position, FP deg, FP scale)
         {
-            return GHelper.CalcCircle(position, this, deg);
+            return GHelper.CalcCircle(position, deg, scale, this);
         }
 
-        public GPolygon CalcAABB(TSVector2 position, FP deg)
+        public GPolygon CalcAABB(TSVector2 position, FP deg, FP scale)
         {
-            return GHelper.CalcAABB(position, this, deg);
+            return GHelper.CalcAABB(position, deg, scale, this);
         }
     }
 }
