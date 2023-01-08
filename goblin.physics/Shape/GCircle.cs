@@ -44,14 +44,24 @@ namespace GoblinFramework.Physics.Shape
 
         public GShapeType type { get { return GShapeType.GCircle; } }
 
-        public GCircle CalcCircle(TSVector2 position, FP deg, FP scale)
+        public IGShape Translate(TSVector2 position)
         {
-            return GHelper.CalcCircle(position, deg, scale, this);
+            return GHelper.Translate(this, position);
         }
 
-        public GPolygon CalcAABB(TSVector2 position, FP deg, FP scale)
+        public IGShape Rotate(FP deg)
         {
-            return GHelper.CalcAABB(position, deg, scale, this);
+            return this;
+        }
+
+        public GCircle CalcCircle()
+        {
+            return GHelper.CalcCircle(this);
+        }
+
+        public GPolygon CalcAABB()
+        {
+            return GHelper.CalcAABB(this);
         }
     }
 }

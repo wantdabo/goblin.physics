@@ -19,7 +19,7 @@ namespace GoblinFramework.Physics
         /// <returns>平移后的线</returns>
         public static GLine Translate(GLine line, TSVector2 offset)
         {
-            return new GLine(line.begin + offset, line.end);
+            return new GLine(line.begin + offset, line.end + offset);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace GoblinFramework.Physics
         /// </summary>
         /// <param name="circle">圆</param>
         /// <param name="offset">平移值</param>
-        /// <returns>平移后的线</returns>
+        /// <returns>平移后的圆</returns>
         public static GCircle Translate(GCircle circle, TSVector2 offset)
         {
             return new GCircle(circle.center + offset, circle.radius);
@@ -38,7 +38,7 @@ namespace GoblinFramework.Physics
         /// </summary>
         /// <param name="plygon">多边形</param>
         /// <param name="offset">平移值</param>
-        /// <returns>平移后的线</returns>
+        /// <returns>平移后的多边形</returns>
         public static GPolygon Translate(GPolygon polygon, TSVector2 offset)
         {
             List<TSVector2> vertexes = new List<TSVector2>();
@@ -76,89 +76,40 @@ namespace GoblinFramework.Physics
         }
 
         /// <summary>
-        /// 将线缩放
-        /// </summary>
-        /// <param name="line">线</param>
-        /// <param name="scale">缩放值</param>
-        /// <returns>缩放后的线</returns>
-        public static GLine Scale(GLine line, FP scale)
-        {
-            var halfDis = TSVector2.Distance(line.begin, line.end) * FP.Half;
-            var center = (line.begin + line.end) * FP.Half;
-
-            return new GLine((line.begin - center).normalized * halfDis * scale, (line.end - center).normalized * halfDis * scale);
-        }
-
-        /// <summary>
-        /// 将圆缩放
-        /// </summary>
-        /// <param name="circle">圆</param>
-        /// <param name="scale">缩放值</param>
-        /// <returns>缩放后的圆</returns>
-        public static GCircle Scale(GCircle circle, FP scale)
-        {
-            return new GCircle(circle.center, circle.radius * scale);
-        }
-
-        /// <summary>
-        /// 将多边形缩放
-        /// </summary>
-        /// <param name="polygon">多边形</param>
-        /// <param name="scale">缩放值</param>
-        /// <returns>缩放后的多边形</returns>
-        public static GPolygon Scale(GPolygon polygon, FP scale)
-        {
-            var lines = polygon.GetLines();
-            for (int i = 0; i < lines.Length; i++) lines[i] = Scale(lines[i], scale);
-
-            return new GPolygon(lines);
-        }
-
-        /// <summary>
         /// 计算线的圆形包围盒
         /// </summary>
-        /// <param name="position">偏移坐标</param>
-        /// <param name="deg">角度</param>
-        /// <param name="scale">缩放</param>
         /// <param name="line">线</param>
         /// <returns>圆形包围盒</returns>
-        public static GCircle CalcCircle(TSVector2 position, FP deg, FP scale, GLine line)
+        public static GCircle CalcCircle(GLine line)
         {
-            var tmp = Rotate(line, deg);
-            var center = (tmp.begin + tmp.end) * FP.Half;
-            var radius = TSVector2.Distance(tmp.end, tmp.end) * FP.Half;
+            var center = (line.begin + line.end) * FP.Half;
+            var radius = TSVector2.Distance(line.end, line.end) * FP.Half;
 
-            return Scale(new GCircle(position + center, radius), scale);
+            return new GCircle(center, radius);
         }
 
         /// <summary>
         /// 计算圆形的圆形包围盒
         /// </summary>
-        /// <param name="position">偏移坐标</param>
-        /// <param name="deg">角度</param>
-        /// <param name="scale">缩放</param>
         /// <param name="circle">圆形</param>
         /// <returns>圆形包围盒</returns>
-        public static GCircle CalcCircle(TSVector2 position, FP deg, FP scale, GCircle circle)
+        public static GCircle CalcCircle(GCircle circle)
         {
-            return Scale(new GCircle(position + circle.center, circle.radius), scale);
+            return circle;
         }
 
         /// <summary>
         /// 计算多边形的圆形包围盒
         /// </summary>
         /// <param name="position">偏移坐标</param>
-        /// <param name="deg">角度</param>
-        /// <param name="scale">缩放</param>
-        /// <param name="polygon">多边形</param>
         /// <returns>圆形包围盒</returns>
-        public static GCircle CalcCircle(TSVector2 position, FP deg, FP scale, GPolygon polygon)
+        public static GCircle CalcCircle(GPolygon polygon)
         {
             var minX = FP.MaxValue;
             var minY = FP.MaxValue;
             var maxX = FP.MinValue;
             var maxY = FP.MinValue;
-            foreach (var vertex in Rotate(polygon, deg).vertexes)
+            foreach (var vertex in polygon.vertexes)
             {
                 minX = TSMath.Min(vertex.x, minX);
                 minY = TSMath.Min(vertex.y, minY);
@@ -173,41 +124,24 @@ namespace GoblinFramework.Physics
         }
 
         /// <summary>
-        /// 计算形状列表的圆形包围盒
-        /// </summary>
-        /// <param name="position">偏移坐标</param>
-        /// <param name="deg">角度</param>
-        /// <param name="scale">缩放</param>
-        /// <param name="shapes">形状列表</param>
-        /// <returns>圆形包围盒</returns>
-        public static GCircle CalcCircle(TSVector2 position, FP deg, FP scale, List<IGShape> shapes)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// 计算线的 AABB 包围盒
         /// </summary>
-        /// <param name="position">偏移坐标</param>
-        /// <param name="deg">角度</param>
-        /// <param name="scale">缩放</param>
         /// <param name="line">线</param>
         /// <returns>AABB 包围盒</returns>
-        public static GPolygon CalcAABB(TSVector2 position, FP deg, FP scale, GLine line)
+        public static GPolygon CalcAABB(GLine line)
         {
-            var tmp = Rotate(line, deg);
-            var minX = TSMath.Min(tmp.begin.x, tmp.end.x);
-            var minY = TSMath.Min(tmp.begin.y, tmp.end.y);
-            var maxX = TSMath.Max(tmp.begin.x, tmp.end.x);
-            var maxY = TSMath.Max(tmp.begin.y, tmp.end.y);
+            var minX = TSMath.Min(line.begin.x, line.end.x);
+            var minY = TSMath.Min(line.begin.y, line.end.y);
+            var maxX = TSMath.Max(line.begin.x, line.end.x);
+            var maxY = TSMath.Max(line.begin.y, line.end.y);
 
-            return Scale(new GPolygon(new List<TSVector2>
+            return new GPolygon(new List<TSVector2>
             {
-                new TSVector2(minX, maxY) + position,
-                new TSVector2(maxX, maxY) + position,
-                new TSVector2(maxX, minY) + position,
-                new TSVector2(minX, minY) + position
-            }), scale);
+                new TSVector2(minX, maxY),
+                new TSVector2(maxX, maxY),
+                new TSVector2(maxX, minY),
+                new TSVector2(minX, minY)
+            });
         }
 
         /// <summary>
@@ -215,35 +149,31 @@ namespace GoblinFramework.Physics
         /// </summary>
         /// <param name="position">偏移坐标</param>
         /// <param name="deg">角度</param>
-        /// <param name="scale">缩放</param>
         /// <param name="circle">圆形</param>
         /// <returns>AABB 包围盒</returns>
-        public static GPolygon CalcAABB(TSVector2 position, FP deg, FP scale, GCircle circle)
+        public static GPolygon CalcAABB(GCircle circle)
         {
-            return Scale(new GPolygon(new List<TSVector2>
+            return new GPolygon(new List<TSVector2>
             {
-                new TSVector2(-circle.radius, circle.radius) + position + circle.center,
-                new TSVector2(circle.radius, circle.radius) + position + circle.center,
-                new TSVector2(circle.radius, -circle.radius) + position + circle.center,
-                new TSVector2(-circle.radius, -circle.radius) + position + circle.center,
-            }), scale);
+                new TSVector2(-circle.radius, circle.radius) + circle.center,
+                new TSVector2(circle.radius, circle.radius) + circle.center,
+                new TSVector2(circle.radius, -circle.radius) + circle.center,
+                new TSVector2(-circle.radius, -circle.radius) + circle.center,
+            });
         }
 
         /// <summary>
         /// 计算多边形的 AABB 包围盒
         /// </summary>
-        /// <param name="position">偏移坐标</param>
-        /// <param name="deg">角度</param>
-        /// <param name="scale">缩放</param>
         /// <param name="polygon">多边形</param>
         /// <returns>AABB 包围盒</returns>
-        public static GPolygon CalcAABB(TSVector2 position, FP deg, FP scale, GPolygon polygon)
+        public static GPolygon CalcAABB(GPolygon polygon)
         {
             var minX = FP.MaxValue;
             var minY = FP.MaxValue;
             var maxX = FP.MinValue;
             var maxY = FP.MinValue;
-            foreach (var vertex in Rotate(polygon, deg).vertexes)
+            foreach (var vertex in polygon.vertexes)
             {
                 minX = TSMath.Min(vertex.x, minX);
                 minY = TSMath.Min(vertex.y, minY);
@@ -251,26 +181,13 @@ namespace GoblinFramework.Physics
                 maxY = TSMath.Max(vertex.y, maxY);
             }
 
-            return Scale(new GPolygon(new List<TSVector2>
+            return new GPolygon(new List<TSVector2>
             {
-                new TSVector2(minX, maxY) + position,
-                new TSVector2(maxX, maxY) + position,
-                new TSVector2(maxX, minY) + position,
-                new TSVector2(minX, minY) + position
-            }), scale);
-        }
-
-        /// <summary>
-        /// 计算形状列表的 AABB 包围盒
-        /// </summary>
-        /// <param name="position">偏移坐标</param>
-        /// <param name="deg">角度</param>
-        /// <param name="scale">缩放</param>
-        /// <param name="shapes">形状列表</param>
-        /// <returns>圆形包围盒</returns>
-        public static GPolygon CalcAABB(TSVector2 position, FP deg, FP scale, List<IGShape> shapes)
-        {
-            throw new NotImplementedException();
+                new TSVector2(minX, maxY),
+                new TSVector2(maxX, maxY),
+                new TSVector2(maxX, minY),
+                new TSVector2(minX, minY)
+            });
         }
     }
 }

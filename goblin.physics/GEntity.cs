@@ -60,20 +60,6 @@ namespace GoblinFramework.Physics.Entity
             }
         }
 
-        private FP mScale;
-        /// <summary>
-        /// 缩放
-        /// </summary>
-        public FP scale
-        {
-            get { return mScale; }
-            set
-            {
-                mScale = value;
-                SetDirty();
-            }
-        }
-
         private GWorld? mWorld = null;
         public GWorld? world { get { return mWorld; } set { mWorld = value; } }
 
@@ -83,9 +69,9 @@ namespace GoblinFramework.Physics.Entity
         /// <param name="position">坐标</param>
         /// <param name="deg">角度</param>
         /// <param name="shapes">形状列表</param>
-        public GEntity(List<IGShape> shapes, TSVector2 position, FP deg, FP scale)
+        public GEntity(List<IGShape> shapes, TSVector2 position, FP deg)
         {
-            SetEntity(shapes, position, deg, scale);
+            SetEntity(shapes, position, deg);
         }
 
         /// <summary>
@@ -94,11 +80,10 @@ namespace GoblinFramework.Physics.Entity
         /// <param name="position">坐标</param>
         /// <param name="deg">角度</param>
         /// <param name="shapes">形状列表</param>
-        public void SetEntity(List<IGShape> shapes, TSVector2 position, FP deg, FP scale)
+        public void SetEntity(List<IGShape> shapes, TSVector2 position, FP deg)
         {
             this.position = position;
             this.deg = deg;
-            this.scale = scale;
             this.shapes = shapes;
             SetDirty();
         }
