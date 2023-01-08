@@ -18,16 +18,16 @@ namespace GoblinFramework.Physics.Entity
         /// </summary>
         public uint entityId;
 
-        private List<IGShape>? mShapes = null;
+        private IGShape mShape = null;
         /// <summary>
-        /// 形状列表
+        /// 形状
         /// </summary>
-        public List<IGShape>? shapes
+        public IGShape shape
         {
-            get { return mShapes; }
+            get { return mShape; }
             set
             {
-                mShapes = value;
+                mShape = value;
                 SetDirty();
             }
         }
@@ -42,13 +42,14 @@ namespace GoblinFramework.Physics.Entity
             set
             {
                 mPosition = value;
+                shape.Translate(mPosition);
                 SetDirty();
             }
         }
 
         private FP mDeg;
         /// <summary>
-        /// 角度（非弧度）
+        /// 角度
         /// </summary>
         public FP deg
         {
@@ -56,44 +57,46 @@ namespace GoblinFramework.Physics.Entity
             set
             {
                 mDeg = value;
+                shape.Rotate(mDeg);
                 SetDirty();
             }
         }
 
-        private GWorld? mWorld = null;
-        public GWorld? world { get { return mWorld; } set { mWorld = value; } }
+        private GWorld mWorld = null;
+        public GWorld world { get { return mWorld; } set { mWorld = value; } }
+
+        /// <summary>
+        /// 构建实体
+        /// </summary>
+        /// <param name="shape"></param>
+        public GEntity(IGShape shape)
+        {
+            this.shape = shape;
+
+            SetDirty();
+        }
 
         /// <summary>
         /// 构建实体
         /// </summary>
         /// <param name="position">坐标</param>
         /// <param name="deg">角度</param>
-        /// <param name="shapes">形状列表</param>
-        public GEntity(List<IGShape> shapes, TSVector2 position, FP deg)
+        /// <param name="shape">形状</param>
+        public GEntity(IGShape shape, TSVector2 position, FP deg)
         {
-            SetEntity(shapes, position, deg);
-        }
-
-        /// <summary>
-        /// 设置实体
-        /// </summary>
-        /// <param name="position">坐标</param>
-        /// <param name="deg">角度</param>
-        /// <param name="shapes">形状列表</param>
-        public void SetEntity(List<IGShape> shapes, TSVector2 position, FP deg)
-        {
+            this.shape = shape;
             this.position = position;
             this.deg = deg;
-            this.shapes = shapes;
+
             SetDirty();
         }
 
         /// <summary>
         /// 设置为脏，重新计算碰撞树
         /// </summary>
-        public void SetDirty() 
+        public void SetDirty()
         {
-            world?.SetDirty(this);
+            world.SetDirty(this);
         }
     }
 }

@@ -198,7 +198,16 @@ namespace GoblinFramework.Physics.Collision
         /// <param name="entity0">实体 1</param>
         /// <param name="entity1">实体 2</param>
         /// <returns>是否相撞</returns>
-        public static bool Test(GEntity entity0, GEntity entity1) { throw new NotImplementedException(); }
+        public static bool Test(GEntity entity0, GEntity entity1)
+        {
+            return entity1.shape.type switch
+            {
+                GShapeType.GLine => Test(entity0, (GLine)entity1.shape),
+                GShapeType.GCircle => Test(entity0, (GCircle)entity1.shape),
+                GShapeType.GPolygon => Test(entity0, (GPolygon)entity1.shape),
+                _ => false,
+            };
+        }
 
         /// <summary>
         /// 测试实体与点的碰撞检测
@@ -206,7 +215,16 @@ namespace GoblinFramework.Physics.Collision
         /// <param name="entity0">实体 1</param>
         /// <param name="point0">点 1</param>
         /// <returns>是否相撞</returns>
-        public static bool Test(GEntity entity0, TSVector2 point0) { throw new NotImplementedException(); }
+        public static bool Test(GEntity entity0, TSVector2 point0)
+        {
+            return entity0.shape.type switch
+            {
+                GShapeType.GLine => Test(point0, (GLine)entity0.shape),
+                GShapeType.GCircle => Test(point0, (GCircle)entity0.shape),
+                GShapeType.GPolygon => Test(point0, (GPolygon)entity0.shape),
+                _ => false,
+            };
+        }
 
         /// <summary>
         /// 测试实体与线的碰撞检测
@@ -214,7 +232,16 @@ namespace GoblinFramework.Physics.Collision
         /// <param name="entity0">实体 1</param>
         /// <param name="line0">线 1</param>
         /// <returns>是否相撞</returns>
-        public static bool Test(GEntity entity0, GLine line0) { throw new NotImplementedException(); }
+        public static bool Test(GEntity entity0, GLine line0)
+        {
+            return entity0.shape.type switch
+            {
+                GShapeType.GLine => Test(line0, (GLine)entity0.shape),
+                GShapeType.GCircle => Test(line0, (GCircle)entity0.shape),
+                GShapeType.GPolygon => Test(line0, (GPolygon)entity0.shape),
+                _ => false,
+            };
+        }
 
         /// <summary>
         /// 测试实体与圆的碰撞检测
@@ -222,7 +249,16 @@ namespace GoblinFramework.Physics.Collision
         /// <param name="entity0">实体 1</param>
         /// <param name="circle0">圆 1</param>
         /// <returns>是否相撞</returns>
-        public static bool Test(GEntity entity0, GCircle circle0) { throw new NotImplementedException(); }
+        public static bool Test(GEntity entity0, GCircle circle0)
+        {
+            return entity0.shape.type switch
+            {
+                GShapeType.GLine => Test((GLine)entity0.shape, circle0),
+                GShapeType.GCircle => Test(circle0, (GCircle)entity0.shape),
+                GShapeType.GPolygon => Test(circle0, (GPolygon)entity0.shape),
+                _ => false,
+            };
+        }
 
         /// <summary>
         /// 测试实体与多边形的碰撞检测
@@ -230,6 +266,15 @@ namespace GoblinFramework.Physics.Collision
         /// <param name="entity0">实体 1</param>
         /// <param name="polygon0">多边形 1</param>
         /// <returns>是否相撞</returns>
-        public static bool Test(GEntity entity0, GPolygon polygon0) { throw new NotImplementedException(); }
+        public static bool Test(GEntity entity0, GPolygon polygon0)
+        {
+            return entity0.shape.type switch
+            {
+                GShapeType.GLine => Test((GLine)entity0.shape, polygon0),
+                GShapeType.GCircle => Test((GCircle)entity0.shape, polygon0),
+                GShapeType.GPolygon => Test(polygon0, (GPolygon)entity0.shape),
+                _ => false,
+            };
+        }
     }
 }
