@@ -1,15 +1,16 @@
 ﻿<Properties StartupConfiguration="{E6838E6C-F6BF-47C7-AB84-C503AC0EFA6C}|Default">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.goblin.physics PreferredExecutionTarget="MonoDevelop.Default" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="goblin.physics/GWorld.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
     <Files>
-      <File FileName="Program.cs" Line="42" Column="1" />
-      <File FileName="goblin.physics/GEntity.cs" Line="22" Column="65" />
-      <File FileName="goblin.physics/Collision/GCollisionTesting.cs" />
-      <File FileName="goblin.physics/GWorld.cs" Line="24" Column="12" />
-      <File FileName="goblin.physics/GHelper.cs" Line="193" Column="2" />
+      <File FileName="Program.cs" Line="204" Column="48" />
+      <File FileName="goblin.physics/GEntity.cs" Line="23" Column="15" />
+      <File FileName="goblin.physics/Collision/GCollisionTesting.cs" Line="161" Column="1" />
+      <File FileName="goblin.physics/GWorld.cs" Line="62" Column="1" />
+      <File FileName="goblin.physics/GHelper.cs" />
+      <File FileName="goblin.physics/Shape/IGShape.cs" Line="22" Column="9" />
+      <File FileName="goblin.physics/Shape/GCircle.cs" Line="13" Column="19" />
+      <File FileName="truesync.math/Fix64.cs" Line="503" Column="23" />
+      <File FileName="truesync.math/TSVector2.cs" Line="225" Column="5" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,15 +19,22 @@
             <Node name="goblin.physics" expanded="True">
               <Node name="goblin.physics" expanded="True">
                 <Node name="Collision" expanded="True" />
-                <Node name="GWorld.cs" selected="True" />
+                <Node name="Shape" expanded="True" />
               </Node>
+              <Node name="truesync.math" expanded="True" />
             </Node>
           </Node>
         </State>
       </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

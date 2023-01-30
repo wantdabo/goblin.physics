@@ -1,4 +1,5 @@
-﻿using GoblinFramework.Physics.Collision;
+﻿using GoblinFramework.Physics;
+using GoblinFramework.Physics.Collision;
 using GoblinFramework.Physics.Shape;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -185,5 +186,40 @@ static void StressTesting()
     //ms 108    << Main >$> g__TestPolygonPolygon | 0_9
 }
 
-StressTesting();
+static void WorldEntityTesting()
+{
+    GWorld world = new GWorld();
+
+    var player0 = world.BornEntity(new GCircle(TSVector2.zero, 5));
+    player0.onCollisionUpdate += () =>
+    {
+        Console.WriteLine(player0.collisions.Count > 0 ? "Player0 碰撞" : "Player0 未碰撞");
+    };
+
+    var player1 = world.BornEntity(new GCircle(TSVector2.zero, 5));
+    player1.onCollisionUpdate += () =>
+    {
+        Console.WriteLine(player1.collisions.Count > 0 ? "Player1 碰撞" : "Player1 未碰撞");
+    };
+
+    var player2 = world.BornEntity(new GCircle(TSVector2.zero, 5));
+    player2.position = new TSVector2(20, 0);
+    player2.onCollisionUpdate += () =>
+    {
+        Console.WriteLine(player2.collisions.Count > 0 ? "Player2 碰撞" : "Player2 未碰撞");
+    };
+
+    while (true)
+    {
+        Thread.Sleep(1000);
+        world.Update();
+        player1.position += TSVector2.right * 5;
+
+        Console.WriteLine("---------");
+    }
+}
+
+//StressTesting();
+WorldEntityTesting();
+
 Console.ReadKey();

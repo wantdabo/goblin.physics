@@ -37,25 +37,46 @@ namespace GoblinFramework.Physics
         /// <summary>
         /// 更新
         /// </summary>
+        public void Update()
+        {
+            Update(FP.Zero);
+        }
+
+        /// <summary>
+        /// 更新
+        /// </summary>
         /// <param name="detailTime">tick</param>
-        /// <returns></returns>
         public void Update(FP detailTime)
         {
-            foreach (var e0 in dirtyEntities)
+            // 现存问题
+            // 冗余的对象遍历碰撞检测。
+            // 如果当前脏对象撞到一个无关联的对象，且该对象不为脏，在当前帧将会丢失该对象的碰撞列表更新时机。
+
+            // TODO 改为从脏对象中，获取到四叉树对应格子，进行 Log(N*N) 遍历。
+            // 可以解决上述问题。
+
+            for (int i = dirtyEntities.Count - 1; i >= 0; i--) foreach (var dependsEntity in dirtyEntities[i].collisions) SetDirty(GetEntity(dependsEntity));
+
+            foreach (var dirtyEntity in dirtyEntities)
             {
-                var temp = e0.lastCollisions;
-                e0.lastCollisions = e0.collisions;
-                e0.collisions = temp;
-                e0.collisions.Clear();
+                var temp = dirtyEntity.lastCollisions;
+                dirtyEntity.lastCollisions = dirtyEntity.collisions;
+                dirtyEntity.collisions = temp;
+                dirtyEntity.collisions.Clear();
 
-                foreach (var e1 in dirtyEntities)
+                foreach (var entity in entities)
                 {
-                    if (e0 == e1) continue;
-                    if (false == GCollisionTesting.Test(e0, e1)) continue;
+                    if (dirtyEntity == entity) continue;
+                    if (false == GCollisionTesting.Test(dirtyEntity, entity)) continue;
 
-                    e0.collisions.Add(e1.entityId);
+                    dirtyEntity.collisions.Add(entity.entityId);
                 }
+
+                dirtyEntity.NotifyCollisionUpdate();
             }
+            dirtyEntities.Clear();
+
+            foreach (var entity in entities) entity.NotifyCollision();
         }
 
         /// <summary>
@@ -80,13 +101,13 @@ namespace GoblinFramework.Physics
             if (idleEntities.Count > 0)
             {
                 var entity = idleEntities.Dequeue();
-                entity.SetEntity(shape, position, deg);
+                entity.SetEntity(this, shape, position, deg);
                 Add2World(entity);
 
                 return entity;
             }
 
-            return Add2World(new GEntity(shape, position, deg));
+            return Add2World(new GEntity(this, shape, position, deg));
         }
 
         /// <summary>

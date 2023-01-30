@@ -42,7 +42,7 @@ namespace GoblinFramework.Physics.Entity
             set
             {
                 mPosition = value;
-                shape.Translate(mPosition);
+                shape = shape.Translate(mPosition);
                 SetDirty();
             }
         }
@@ -76,39 +76,52 @@ namespace GoblinFramework.Physics.Entity
         /// 最新的碰撞列表
         /// </summary>
         public List<uint> collisions = new List<uint>();
+
         /// <summary>
-        /// 碰撞更新的事件
+        /// 通知碰撞检测事件，监听就通知，不论是否变化
         /// </summary>
         public event Action onCollision;
+        /// <summary>
+        /// 碰撞事件更新就会通知，不论是否变化
+        /// </summary>
+        public event Action onCollisionUpdate;
+        /// <summary>
+        /// 碰撞更新有变化的事件，如果上一次与最新的碰撞信息无变化将不通知
+        /// </summary>
+        public event Action onCollisionChanged;
 
         /// <summary>
         /// 构建实体
         /// </summary>
+        /// <param name="world">世界</param>
         /// <param name="shape"></param>
-        public GEntity(IGShape shape)
+        public GEntity(GWorld world, IGShape shape)
         {
-            SetEntity(shape, TSVector2.zero, FP.Zero);
+            SetEntity(world, shape, TSVector2.zero, FP.Zero);
         }
 
         /// <summary>
         /// 构建实体
         /// </summary>
+        /// <param name="world">世界</param>
         /// <param name="shape">形状</param>
         /// <param name="position">坐标</param>
         /// <param name="deg">角度</param>
-        public GEntity(IGShape shape, TSVector2 position, FP deg)
+        public GEntity(GWorld world, IGShape shape, TSVector2 position, FP deg)
         {
-            SetEntity(shape, position, deg);
+            SetEntity(world, shape, position, deg);
         }
 
         /// <summary>
         /// 设置实体
         /// </summary>
+        /// <param name="world">世界</param>
         /// <param name="shape">形状</param>
         /// <param name="position">坐标</param>
         /// <param name="deg">角度</param>
-        public void SetEntity(IGShape shape, TSVector2 position, FP deg)
+        public void SetEntity(GWorld world, IGShape shape, TSVector2 position, FP deg)
         {
+            this.world = world;
             this.shape = shape;
             this.position = position;
             this.deg = deg;
@@ -122,6 +135,30 @@ namespace GoblinFramework.Physics.Entity
         public void SetDirty()
         {
             world.SetDirty(this);
+        }
+
+        /// <summary>
+        /// 通知碰撞检测事件，监听就通知，不论是否变化
+        /// </summary>
+        public void NotifyCollision()
+        {
+            onCollision?.Invoke();
+        }
+
+        /// <summary>
+        /// 碰撞事件更新就会通知，不论是否变化
+        /// </summary>
+        public void NotifyCollisionUpdate()
+        {
+            onCollisionUpdate?.Invoke();
+        }
+
+        /// <summary>
+        /// 碰撞更新有变化的事件，如果上一次与最新的碰撞信息无变化将不通知
+        /// </summary>
+        public void NotifyCollisionChanged  ()
+        {
+            onCollisionChanged?.Invoke();
         }
     }
 }
