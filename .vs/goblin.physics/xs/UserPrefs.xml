@@ -1,16 +1,21 @@
 ﻿<Properties StartupConfiguration="{E6838E6C-F6BF-47C7-AB84-C503AC0EFA6C}|Default">
   <MonoDevelop.Ide.ItemProperties.goblin.physics PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
     <Files>
-      <File FileName="Program.cs" Line="204" Column="48" />
-      <File FileName="goblin.physics/GEntity.cs" Line="23" Column="15" />
-      <File FileName="goblin.physics/Collision/GCollisionTesting.cs" Line="161" Column="1" />
-      <File FileName="goblin.physics/GWorld.cs" Line="62" Column="1" />
+      <File FileName="Program.cs" Line="194" Column="30" />
+      <File FileName="goblin.physics/GEntity.cs" Line="150" Column="13" />
+      <File FileName="goblin.physics/Collision/GCollisionTesting.cs" />
+      <File FileName="goblin.physics/GWorld.cs" Line="75" Column="50" />
       <File FileName="goblin.physics/GHelper.cs" />
-      <File FileName="goblin.physics/Shape/IGShape.cs" Line="22" Column="9" />
-      <File FileName="goblin.physics/Shape/GCircle.cs" Line="13" Column="19" />
-      <File FileName="truesync.math/Fix64.cs" Line="503" Column="23" />
-      <File FileName="truesync.math/TSVector2.cs" Line="225" Column="5" />
+      <File FileName="goblin.physics/Shape/IGShape.cs" />
+      <File FileName="goblin.physics/Shape/GCircle.cs" />
+      <File FileName="truesync.math/Fix64.cs" />
+      <File FileName="truesync.math/TSVector2.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -32,9 +37,4 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

@@ -157,7 +157,7 @@ static long StopwatchInvoke(int count, Action action)
     return stopwatch.ElapsedMilliseconds;
 }
 
-static void StressTesting() 
+static void StressTesting()
 {
     /// <summary>
     /// 一百万次碰撞检测

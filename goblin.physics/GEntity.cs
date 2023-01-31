@@ -77,6 +77,90 @@ namespace GoblinFramework.Physics.Entity
         /// </summary>
         public List<uint> collisions = new List<uint>();
 
+        private List<uint> mAddCollisions = new List<uint>();
+        /// <summary>
+        /// 碰撞列表中，相对上一次的新增
+        /// </summary>
+        public List<uint> addCollisions {
+            get
+            {
+                CalcDiffCollisions();
+
+                return mAddCollisions;
+            }
+            private set { }
+        }
+
+        private List<uint> mDecCollisions = new List<uint>();
+        /// <summary>
+        /// 碰撞列表中，相对上一次的减少
+        /// </summary>
+        public List<uint> decCollisions {
+            get
+            {
+                CalcDiffCollisions();
+
+                return mDecCollisions;
+            }
+            private set { }
+        }
+
+        private List<uint> mDiffCollisions = new List<uint>();
+        /// <summary>
+        /// 碰撞列表的差集
+        /// </summary>
+        public List<uint> diffCollisions {
+            get
+            {
+                CalcDiffCollisions();
+
+                return mDiffCollisions;
+            }
+            private set { }
+        }
+
+        private List<uint> mUnionCollisions = new List<uint>();
+        /// <summary>
+        /// 碰撞列表的并集
+        /// </summary>
+        public List<uint> unionCollisions {
+            get
+            {
+                mUnionCollisions.Clear();
+                foreach (var entityId in collisions)
+                    if (lastCollisions.Contains(entityId)) unionCollisions.Add(entityId);
+
+                return mUnionCollisions;
+            }
+
+            private set { }
+        }
+
+        /// <summary>
+        /// 计算碰撞列表的差集
+        /// </summary>
+        private void CalcDiffCollisions()
+        {
+            mAddCollisions.Clear();
+            mDecCollisions.Clear();
+            mDiffCollisions.Clear();
+            foreach (var entityId in collisions)
+            {
+                if (false == unionCollisions.Contains(entityId)) diffCollisions.Add(entityId);
+            }
+
+            foreach (var entityId in lastCollisions)
+            {
+                if (false == unionCollisions.Contains(entityId)) diffCollisions.Add(entityId);
+            }
+
+            foreach (var entityId in mDiffCollisions)
+            {
+                if (collisions.Contains(entityId) && false == lastCollisions.Contains(entityId)) mAddCollisions.Add(entityId);
+                if (false == collisions.Contains(entityId) && lastCollisions.Contains(entityId)) mDecCollisions.Add(entityId);
+            }
+        }
+
         /// <summary>
         /// 通知碰撞检测事件，监听就通知，不论是否变化
         /// </summary>
@@ -85,10 +169,6 @@ namespace GoblinFramework.Physics.Entity
         /// 碰撞事件更新就会通知，不论是否变化
         /// </summary>
         public event Action onCollisionUpdate;
-        /// <summary>
-        /// 碰撞更新有变化的事件，如果上一次与最新的碰撞信息无变化将不通知
-        /// </summary>
-        public event Action onCollisionChanged;
 
         /// <summary>
         /// 构建实体
@@ -151,14 +231,6 @@ namespace GoblinFramework.Physics.Entity
         public void NotifyCollisionUpdate()
         {
             onCollisionUpdate?.Invoke();
-        }
-
-        /// <summary>
-        /// 碰撞更新有变化的事件，如果上一次与最新的碰撞信息无变化将不通知
-        /// </summary>
-        public void NotifyCollisionChanged  ()
-        {
-            onCollisionChanged?.Invoke();
         }
     }
 }
