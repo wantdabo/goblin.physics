@@ -169,6 +169,9 @@ namespace GoblinFramework.Physics.Collision
         /// <returns>是否碰撞</returns>
         public static bool Test(GCircle circle1, GPolygon polygon1)
         {
+            // 快速检测，圆心是否在多边形内
+            if (Test(circle1.center, polygon1)) return true;
+            
             var lines = polygon1.GetLines();
             for (int i = 0; i < lines.Length; i++) if (Test(lines[i], circle1)) return true;
 
