@@ -1,21 +1,19 @@
 ﻿<Properties StartupConfiguration="{E6838E6C-F6BF-47C7-AB84-C503AC0EFA6C}|Default">
-  <MonoDevelop.Ide.ItemProperties.goblin.physics PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="README.md">
     <Files>
-      <File FileName="Program.cs" Line="194" Column="30" />
-      <File FileName="goblin.physics/GEntity.cs" Line="150" Column="13" />
+      <File FileName="Program.cs" Line="160" Column="28" />
+      <File FileName="goblin.physics/GEntity.cs" Line="140" Column="22" />
       <File FileName="goblin.physics/Collision/GCollisionTesting.cs" />
-      <File FileName="goblin.physics/GWorld.cs" Line="75" Column="50" />
+      <File FileName="goblin.physics/GWorld.cs" />
       <File FileName="goblin.physics/GHelper.cs" />
-      <File FileName="goblin.physics/Shape/IGShape.cs" />
-      <File FileName="goblin.physics/Shape/GCircle.cs" />
+      <File FileName="goblin.physics/Shape/IGShape.cs" Line="32" Column="22" />
+      <File FileName="goblin.physics/Shape/GCircle.cs" Line="13" Column="33" />
       <File FileName="truesync.math/Fix64.cs" />
       <File FileName="truesync.math/TSVector2.cs" />
+      <File FileName="goblin.physics/Shape/GPolygon.cs" Line="1" Column="1" />
+      <File FileName="goblin.physics/Shape/GLine.cs" Line="1" Column="1" />
+      <File FileName="LICENSE" Line="1" Column="1" />
+      <File FileName="README.md" Line="6" Column="28" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -27,6 +25,7 @@
                 <Node name="Shape" expanded="True" />
               </Node>
               <Node name="truesync.math" expanded="True" />
+              <Node name="README.md" selected="True" />
             </Node>
           </Node>
         </State>
@@ -36,5 +35,11 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.goblin.physics PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>

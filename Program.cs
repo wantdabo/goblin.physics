@@ -214,7 +214,6 @@ static void WorldEntityTesting()
         Thread.Sleep(1000);
         world.Update();
         player1.position += TSVector2.right * 5;
-
         Console.WriteLine("---------");
     }
 }

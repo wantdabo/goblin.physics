@@ -63,7 +63,8 @@ namespace GoblinFramework.Physics
                 dirtyEntity.lastCollisions = dirtyEntity.collisions;
                 dirtyEntity.collisions = temp;
                 dirtyEntity.collisions.Clear();
-
+                
+                // TODO 这里去四叉树格子 entities 改成 zoneEntities
                 foreach (var entity in entities)
                 {
                     if (dirtyEntity == entity) continue;

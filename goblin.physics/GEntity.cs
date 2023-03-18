@@ -67,7 +67,6 @@ namespace GoblinFramework.Physics.Entity
         /// 该 Entity 属于的 World
         /// </summary>
         public GWorld world { get { return mWorld; } set { mWorld = value; } }
-
         /// <summary>
         /// 上一次的碰撞列表
         /// </summary>
@@ -76,7 +75,6 @@ namespace GoblinFramework.Physics.Entity
         /// 最新的碰撞列表
         /// </summary>
         public List<uint> collisions = new List<uint>();
-
         private List<uint> mAddCollisions = new List<uint>();
         /// <summary>
         /// 碰撞列表中，相对上一次的新增
