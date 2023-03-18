@@ -41,8 +41,9 @@ namespace GoblinFramework.Physics.Entity
             get { return mPosition; }
             set
             {
+                var translate = value - mPosition;
                 mPosition = value;
-                shape = shape.Translate(mPosition);
+                shape = shape.Translate(translate);
                 SetDirty();
             }
         }
